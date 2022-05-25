@@ -34,7 +34,7 @@ try:
                 if var.returncode == 0:
                     print("\n\tIP address {} is alive.".format(i))
                 else:
-                    print("\n\tIP address {} is dead.")
+                    print("\n\tIP address {} is dead.".format(i)
 
 
 
