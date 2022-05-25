@@ -29,12 +29,13 @@ try:
 
         # Function for Pinging the valied ip addresses.
         def ping_ip(self):
-            for i in self.ip_validation():
-                var = (subprocess.run("ping {}".format(i), 1, shell=True,))     # ping comand with subprocess module
-                if var.returncode == 0:
-                    print("\n\tIP address {} is alive.".format(i))
+            for ip in self.ip_validation():
+                var = (subprocess.call(["ping", "-n", "1", ip]))     # ping comand with subprocess module
+                
+                if var == 0:
+                    print("\n\tIP address {} is alive.".format(ip))
                 else:
-                    print("\n\tIP address {} is dead.".format(i)
+                    print("\n\tIP address {} is dead.".format(ip))
 
 
 
