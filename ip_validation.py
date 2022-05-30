@@ -1,4 +1,5 @@
 
+
 try:
     import subprocess
     from ipaddress import ip_address
@@ -30,13 +31,14 @@ try:
         # Function for Pinging the valied ip addresses.
         def ping_ip(self):
             for ip in self.ip_validation():
-                var = (subprocess.call(["ping", "-n", "1", ip]))     # ping comand with subprocess module
-                
-                if var == 0:
-                    print("\n\tIP address {} is alive.".format(ip))
+                var = subprocess.Popen(['ping', '-n', '1', '-w', '500', ip], stdout=subprocess.PIPE,).communicate()[0]
+                if "Destination host unreachable" in var.decode('utf-8'):
+                    print("\tIP address {} is dead.".format(ip))
+                elif "Request timed out" in var.decode('utf-8'):
+                    print("\tIP address {} is dead.".format(ip))
                 else:
-                    print("\n\tIP address {} is dead.".format(ip))
-
+                    print("\tIP address {} is alive.".format(ip))
+                    
 
 
     if __name__ == "__main__":
@@ -46,5 +48,10 @@ try:
         obj = IP_Live(first, host1, host2)      # Creating object of class
         obj.ping_ip()               # Calling the func
 
+
+# Error handling is working here. Don't disturb. 
 except Exception as e:
     print("You are getting this ERROR: {}".format(e))
+
+except KeyboardInterrupt:
+    print("\n\n\tCode Shutting Down Forcefully. Bye..Bye..!")
